@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 导入配置文件 -->
+    <!--<properties resource="application.yml"/>-->
+
+    <!--同步库Mysql配置-->
+    <context id="context" targetRuntime="MyBatis3Simple">
+
+        <!-- 生成的POJO实现java.io.Serializable接口 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+
+        <!-- 注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库链接相关配置 -->
+        <jdbcConnection
+                userId="monitor"
+                password="monitor"
+                driverClass="com.mysql.jdbc.Driver"
+                connectionURL="jdbc:mysql://192.168.1.158:3306/monitorui_api"/>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 生成POJO类的位置 -->
+        <javaModelGenerator targetPackage="com.zytk.entity" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- mapper映射文件生成的位置 -->
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- mapper接口生成的位置 -->
+        <javaClientGenerator targetPackage="com.zyzh.dao" type="XMLMAPPER" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <table schema="monitor" tableName="p_zdinfo"/>
+
+    </context>
+</generatorConfiguration>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyzh.dao.PZdinfoMapper">
+  <resultMap id="BaseResultMap" type="com.zyzh.entity.PZdinfo">
+    <id column="zd_code" jdbcType="VARCHAR" property="zdCode" />
+    <result column="zd_state" jdbcType="VARCHAR" property="zdState" />
+    <result column="zd_title" jdbcType="VARCHAR" property="zdTitle" />
+    <result column="zd_type" jdbcType="VARCHAR" property="zdType" />
+    <result column="zd_address" jdbcType="VARCHAR" property="zdAddress" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from p_zdinfo
+    where zd_code = #{zdCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zyzh.entity.PZdinfo">
+    insert into p_zdinfo (zd_code, zd_state, zd_title, 
+      zd_type, zd_address, create_time, 
+      edit_time)
+    values (#{zdCode,jdbcType=VARCHAR}, #{zdState,jdbcType=VARCHAR}, #{zdTitle,jdbcType=VARCHAR}, 
+      #{zdType,jdbcType=VARCHAR}, #{zdAddress,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{editTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zyzh.entity.PZdinfo">
+    update p_zdinfo
+    set zd_state = #{zdState,jdbcType=VARCHAR},
+      zd_title = #{zdTitle,jdbcType=VARCHAR},
+      zd_type = #{zdType,jdbcType=VARCHAR},
+      zd_address = #{zdAddress,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      edit_time = #{editTime,jdbcType=TIMESTAMP}
+    where zd_code = #{zdCode,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select zd_code, zd_state, zd_title, zd_type, zd_address, create_time, edit_time
+    from p_zdinfo
+    where zd_code = #{zdCode,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select zd_code, zd_state, zd_title, zd_type, zd_address, create_time, edit_time
+    from p_zdinfo
+  </select>
+</mapper>

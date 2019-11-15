@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.1.168:3306/monitorui_api?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: monitor
+    password: monitor
+
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.zytk.entity
+
+redis:
+  database: 0
+  host: 192.168.1.158
+  port: 6379
+  password: 123456
+  pool:
+    max-active: 1000
+    max-idle: 100
+    max-wait: 10000
+  timeout: 3000
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        mapper : debug
