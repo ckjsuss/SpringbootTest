@@ -15,6 +15,7 @@ public class Test {
         System.out.println(System.currentTimeMillis() - l + "ms");
     }
 
+
     public static void getString2(){
         Long l = System.currentTimeMillis();
         StringBuilder stringBuilder = new StringBuilder();
