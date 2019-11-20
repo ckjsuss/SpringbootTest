@@ -8,10 +8,12 @@ spring:
     username: monitor
     password: monitor
 
+  devtools:
+    restart:
+      enabled: true
 mybatis:
   mapper-locations: classpath:mapping/*Mapper.xml
   type-aliases-package: com.zytk.entity
-
 redis:
   database: 0
   host: 192.168.1.158

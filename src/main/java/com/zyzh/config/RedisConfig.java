@@ -12,11 +12,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 @EnableCaching
 public class RedisConfig {
     @Bean
-    public CacheManager cacheManager(RedisTemplate<?,?> redisTemplate) {
-//        CacheManager cacheManager = new RedisCacheManager(redisTemplate);
-        return null;
-    }
-    @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
         redisTemplate.setConnectionFactory(factory);

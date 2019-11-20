@@ -1,10 +1,18 @@
-package com.zyzh.flow;
+package com.zyzh.flow.log;
+
+import com.zyzh.flow.state.BreakerManager;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class OutputFile {
-    public static String fileFullPath = "F:\\Workspace_Java\\Github\\SpringbootTest\\src\\main\\java\\com\\zyzh\\flow\\log.txt";
-    public synchronized static void wirte(String content){
+public class Logger {
+    private final static SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+    public static String fileFullPath = BreakerManager.class.getClassLoader().getResource("").getPath()+"log"+sdf.format(new Date())+".txt";
+    static {
+        System.out.println(fileFullPath);
+    }
+    public synchronized static void log(String content){
             FileOutputStream fos = null;
             try {
                 //true不覆盖已有内容
@@ -13,7 +21,6 @@ public class OutputFile {
                 fos.write(content.getBytes());
                 // 写入一个换行
                 fos.write("\r\n".getBytes());
-
             } catch (IOException e) {
                 e.printStackTrace();
             }finally{
