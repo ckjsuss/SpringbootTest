@@ -1,6 +1,9 @@
 package com.zyzh.flow.state;
 
 import com.zyzh.flow.breaker.Breaker;
+import com.zyzh.flow.config.Config;
+import com.zyzh.flow.log.Logger;
+
 import java.util.HashMap;
 
 /**
@@ -12,20 +15,23 @@ public class BreakerManager {
     /**
      * 失败次数
      */
-    public int failureCount;
+    static int failureCount;
     /**
      * 连续成功次数
      */
-    public int consecutiveSuccessCount;
+    static int consecutiveSuccessCount;
     /**
      * 最大调用失败次数
      */
-    public int failureThreshold;
+    int failureThreshold;
     /**
      * 连续调用成功次数
      */
-    public int consecutiveSuccessThreshold;
-    public long timeout;
+    int consecutiveSuccessThreshold;
+    /**
+     * 超时时间
+     */
+    long timeout;
     /**
      * 当前熔断器状态
      */
@@ -79,42 +85,41 @@ public class BreakerManager {
         return consecutiveSuccessCount >= consecutiveSuccessThreshold;
     }
 
-    public static BreakerManager getInstance(int failureThreshold, int consecutiveSuccessThreshold, long timeout){
-        return LazyBreakerManager.getBreakerManager( failureThreshold,consecutiveSuccessThreshold,timeout);
+    public long getTimeout() {
+        return timeout;
     }
 
     /**
-     * 内部类延时加载
-     * Demand Holder
-     */
-    private static class LazyBreakerManager{
-        public static BreakerManager breakerManager = null;
-        public static BreakerManager getBreakerManager(int failureThreshold, int consecutiveSuccessThreshold, long timeout){
-            breakerManager = new BreakerManager(failureThreshold,consecutiveSuccessThreshold,timeout);
-            return breakerManager;
-        }
-    }
-
-    /**
-     *  熔断器初始化
+     * 熔断器初始化
      * 熔断器切换到闭合状态
-     * @param failureThreshold            Close状态下最大失败次数
-     * @param consecutiveSuccessThreshold HalfOpen状态下使用的最大连续成功次数
-     * @param timeout                     Open状态下的超时时间
+     * @param config
      */
-    private BreakerManager(int failureThreshold, int consecutiveSuccessThreshold, long timeout) {
-        if (failureThreshold < 1 ) {
+    public BreakerManager(Config config) {
+        if (config.getFailureThreshold() < 1) {
             throw new RuntimeException("【熔断器闭合状态】最大失败次数：必须大于0！");
         }
-        if(consecutiveSuccessThreshold < 1){
+        if (config.getConsecutiveSuccessThreshold() < 1) {
             throw new RuntimeException("【半熔断状态】最大连续成功次数：必须大于0！");
         }
-        if (timeout < 1) {
+        if (config.getTimeout() < 1) {
             throw new RuntimeException("【熔断器断开状态】超时时间：必须大于0！");
         }
-        this.failureThreshold = failureThreshold;
-        this.consecutiveSuccessThreshold = consecutiveSuccessThreshold;
-        this.timeout = timeout;
+        this.failureThreshold = config.getFailureThreshold();
+        this.consecutiveSuccessThreshold = config.getConsecutiveSuccessThreshold();
+        this.timeout = config.getTimeout();
+        close();
+    }
+
+    /**
+     *  默认熔断器
+     *  初始化默认值【最大失败次数：10, 最大连续成功次数：15, 超时时间：5000】
+     *  熔断器切换到闭合状态
+     */
+    public BreakerManager() {
+        Config config = new Config(10, 15, 5000);
+        this.failureThreshold = config.getFailureThreshold();
+        this.consecutiveSuccessThreshold = config.getConsecutiveSuccessThreshold();
+        this.timeout = config.getTimeout();
         close();
     }
 
@@ -155,11 +160,14 @@ public class BreakerManager {
 
     @Override
     public String toString() {
-        return "BreakerManager{"
-                + "失败次数=" + failureCount + ", " +
-                "连续成功次数=" + consecutiveSuccessCount + ", " +
-                "最大调用失败次数=" + failureThreshold + "," +
-                " 连续调用成功次数=" + consecutiveSuccessThreshold
-                + '}';
+        return "BreakerManager{" + "失败次数=" + failureCount + ", " + "连续成功次数=" + consecutiveSuccessCount + ", " + "最大调用失败次数=" + failureThreshold + "," + " 连续调用成功次数=" + consecutiveSuccessThreshold + '}';
+    }
+
+    public void showState() {
+        System.out.println("Breaker is Closed:" + this.isClosed());
+        System.out.println("Breaker is Open:" + this.isOpen());
+        System.out.println("Breaker is isHalfOpen:" + this.isHalfOpen());
+        Logger.log(this.toString());
+        System.out.println();
     }
 }

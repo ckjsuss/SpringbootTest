@@ -12,6 +12,6 @@ public class MyBreaker implements Breaker {
 
     @Override
     public boolean onResponse(Map map) throws Exception {
-        return false;
+        return res;
     }
 }

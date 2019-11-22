@@ -23,7 +23,7 @@ public class OpenState extends AbstractBreakerState {
             service.schedule(() -> {
                 manager.halfOpen();
                 service.shutdown();
-            },manager.timeout, TimeUnit.MILLISECONDS);
+            },manager.getTimeout(), TimeUnit.MILLISECONDS);
 
     }
 

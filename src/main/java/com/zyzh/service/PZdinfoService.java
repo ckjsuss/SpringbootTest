@@ -1,9 +1,10 @@
-package com.zyzh.dao;
+package com.zyzh.service;
 
 import com.zyzh.entity.PZdinfo;
+
 import java.util.List;
 
-public interface PZdinfoMapper {
+public interface PZdinfoService {
     int deleteByPrimaryKey(String zdCode);
 
     int insert();
