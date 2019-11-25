@@ -19,6 +19,5 @@ public class DownloadTask implements Runnable{
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        System.out.println(Thread.currentThread().getName());
     }
 }

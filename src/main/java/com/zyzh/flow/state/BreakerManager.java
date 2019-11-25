@@ -160,7 +160,8 @@ public class BreakerManager {
 
     @Override
     public String toString() {
-        return "BreakerManager{" + "失败次数=" + failureCount + ", " + "连续成功次数=" + consecutiveSuccessCount + ", " + "最大调用失败次数=" + failureThreshold + "," + " 连续调用成功次数=" + consecutiveSuccessThreshold + '}';
+        return "BreakerManager{" + "失败次数=" + failureCount + ", " + "连续成功次数=" + consecutiveSuccessCount + "," +
+               "最大调用失败次数=" + failureThreshold + "," + " 连续调用成功次数=" + consecutiveSuccessThreshold + '}';
     }
 
     public void showState() {
