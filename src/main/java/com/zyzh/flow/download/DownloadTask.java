@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
  */
 public class DownloadTask implements Runnable{
     private String downloadURL;
+    public static String saveFilePath;
 
     public DownloadTask(String downloadURL){
         this.downloadURL = downloadURL;
@@ -15,7 +16,7 @@ public class DownloadTask implements Runnable{
     @Override
     public void run() {
         try {
-            Download.downloadNet(downloadURL);
+            Download.downloadNet(downloadURL,saveFilePath);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
